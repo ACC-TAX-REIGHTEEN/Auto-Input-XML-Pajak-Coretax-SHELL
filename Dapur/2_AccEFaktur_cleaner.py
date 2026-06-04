@@ -109,7 +109,7 @@ def proses_data_faktur_dynamic(input_file, output_file):
 
     if 'H.Jual' in df_clean.columns:
         print("--> Menghitung HJTNP...")
-        df_clean['HJTNP'] = df_clean['H.Jual'] / 1.11
+        df_clean['HJTNP'] = df_clean['H.Jual']
         cols_angka.append('HJTNP')
 
     print("--> Mengurutkan kolom...")

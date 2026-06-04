@@ -115,12 +115,12 @@ def proses_data_faktur_dynamic(input_file, output_file):
     print("--> Melakukan kalkulasi tambahan...")
 
     if 'H.Jual' in df_clean.columns:
-        df_clean['HJTNP'] = df_clean['H.Jual'] / 1.11
+        df_clean['HJTNP'] = df_clean['H.Jual']
         cols_angka.append('HJTNP')
 
     if 'Discount Faktur' in df_clean.columns and 'Qty' in df_clean.columns and 'No.Inv' in df_clean.columns:
         
-        df_clean['DISC. TANPA'] = df_clean['Discount Faktur'] / 1.11
+        df_clean['DISC. TANPA'] = df_clean['Discount Faktur']
         df_clean['TOTAL QTY'] = df_clean.groupby('No.Inv')['Qty'].transform('sum')
         df_clean['DISC. SATUAN'] = df_clean['DISC. TANPA'] / df_clean['TOTAL QTY']
         df_clean['DISC. SATUAN'] = df_clean['DISC. SATUAN'].fillna(0)

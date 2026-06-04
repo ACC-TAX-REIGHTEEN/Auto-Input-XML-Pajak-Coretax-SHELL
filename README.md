@@ -221,7 +221,7 @@ Kedua script utama menjalankan pipeline yang sama, hanya berbeda pada modul yang
    │     └─ Bersihkan & normalisasi data header faktur → AccCtxFaktur_temp.xlsx
    │
    ├── [Step 2] 2_*EFaktur_cleaner.py
-   │     └─ Bersihkan data detail item, hitung HJTNP (H.Jual / 1.11) → AccEFaktur_temp.xlsx
+   │     └─ Bersihkan data detail item, hitung HJTNP (H.Jual) → AccEFaktur_temp.xlsx
    │       [Mode Diskon tambahan: hitung DISC.TANPA, TOTAL QTY, DISC.SATUAN, DISC.ITEM]
    │
    ├── [Step 3] 3_*MkNwFile.py
@@ -265,7 +265,7 @@ Kedua script utama menjalankan pipeline yang sama, hanya berbeda pada modul yang
 | `0_Ftch_github@AccTaxREighteen.py` | Mengunduh versi terbaru file Helper dari repositori GitHub `ACC-TAX-REIGHTEEN/Helper-For-Tax-Automation` menggunakan perbandingan MD5 checksum |
 | `1_AccCtxFaktur_cleaner.py` | Membersihkan data ekspor Accurate/Ctx: normalisasi tanggal, konversi angka, generate kolom IDTKU dari NPWP |
 | `1_AccDiscFaktur_cleaner.py` | Versi diskon dari cleaner di atas (input: `Faktur.xls`) |
-| `2_AccEFaktur_cleaner.py` | Membersihkan data detail item dari e-Faktur, menghitung kolom `HJTNP` (Harga Jual Tanpa PPN = H.Jual / 1.11) |
+| `2_AccEFaktur_cleaner.py` | Membersihkan data detail item dari e-Faktur, menghitung kolom `HJTNP` (Harga Jual Tanpa PPN = H.Jual) |
 | `2_AccDiscEFaktur_cleaner.py` | Versi diskon: tambahan kalkulasi `DISC.TANPA`, `TOTAL QTY per Invoice`, `DISC.SATUAN`, `DISC.ITEM` |
 | `3_MkNwFile.py` / `3_DiscMkNwFile.py` | Membuat file Excel antara (`MkNwFile_temp.xlsx`) dengan 3 sheet kosong sebagai wadah data terstruktur |
 | `4_CpInvRefCalcXlook.py` / `4_DiscCpInvRefCalcXlook.py` | Menghubungkan data detail (berdasarkan No. Invoice) dengan data faktur (berdasarkan Referensi) — pengganti fungsi `XLOOKUP` di Excel |
@@ -314,7 +314,7 @@ File disimpan di **folder utama** (sejajar dengan script). File yang sudah ada d
 
 | Kolom | Formula |
 |---|---|
-| `HJTNP` (Harga Jual Tanpa PPN) | `H.Jual / 1.11` |
+| `HJTNP` (Harga Jual Tanpa PPN) | `H.Jual` |
 | `Harga Satuan` | = `HJTNP` |
 | `Total Diskon` | = `Discount Faktur` dari data sumber |
 | `DPP` | `(Harga Satuan × Qty) - Total Diskon` |
@@ -328,7 +328,7 @@ File disimpan di **folder utama** (sejajar dengan script). File yang sudah ada d
 
 | Kolom | Formula |
 |---|---|
-| `DISC. TANPA` | `Discount Faktur / 1.11` |
+| `DISC. TANPA` | `Discount Faktur` |
 | `TOTAL QTY` | Jumlah total qty semua item dalam satu nomor invoice |
 | `DISC. SATUAN` | `DISC. TANPA / TOTAL QTY` |
 | `DISC. ITEM` | `DISC. SATUAN × Qty item` |

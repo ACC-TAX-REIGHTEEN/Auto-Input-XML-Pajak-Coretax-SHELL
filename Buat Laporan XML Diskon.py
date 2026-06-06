@@ -32,7 +32,7 @@ REQUIRED_DAPUR_FILES = [
     "Helper_Del.txt",
     "KTP.txt",
     "KTP-OTH.txt",
-    "TEMPLATE_1.3.25.xlsx"
+    "Template_v.1.6.1.xlsx"
 ]
 
 EXECUTION_ORDER = [
@@ -129,6 +129,23 @@ def force_harga_satuan_to_number(raw_data):
         cleaned_data.append(row_list)
     return cleaned_data
 
+def force_kode_barang_to_string(raw_data):
+    cleaned_data = []
+    for row in raw_data:
+        row_list = list(row)
+        val = row_list[2] 
+        if val is not None:
+            if isinstance(val, float):
+                if val.is_integer():
+                    val = str(int(val))
+                else:
+                    val = str(val)
+            else:
+                val = str(val)
+            row_list[2] = "'" + val
+        cleaned_data.append(row_list)
+    return cleaned_data
+
 def main():
     final_filename_base = get_default_filename()
 
@@ -173,7 +190,7 @@ def main():
         if not os.path.exists(source_file):
             error_exit("File 'MkNwFile_temp.xlsx' tidak terbentuk setelah proses.")
 
-        template_ori = os.path.join(dapur_path, "TEMPLATE_1.3.25.xlsx")
+        template_ori = os.path.join(dapur_path, "Template_v.1.6.1.xlsx")
         template_temp = os.path.join(dapur_path, "TEMPLATE_temp.xlsx")
         
         try:
@@ -232,6 +249,7 @@ def main():
                 raw_data_detail = sh_src_detail.range(f'A2:N{last_row_src_detail}').options(ndim=2).value
 
                 final_data_detail = force_harga_satuan_to_number(raw_data_detail)
+                final_data_detail = force_kode_barang_to_string(final_data_detail)
 
                 rows_to_insert_dtl = data_count_detail - 1
                 anchor_row_dtl = 3
